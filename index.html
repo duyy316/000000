@@ -77,12 +77,17 @@
         function init() {
             const overlay = document.getElementById('start-overlay');
             const audio = document.getElementById('bg-music');
-            overlay.addEventListener('click', () => {
-                audio.play().then(() => {
-                    overlay.style.opacity = 0;
-                    setTimeout(() => overlay.remove(), 500);
-                }).catch(e => console.log(e));
-            });
+overlay.addEventListener('click', () => {
+  // Tắt overlay trước (KHÔNG phụ thuộc audio)
+  overlay.style.opacity = 0;
+  setTimeout(() => overlay.remove(), 500);
+
+  // Play nhạc nếu được (bị chặn cũng OK)
+  audio.play().catch(err => {
+    console.warn("Audio bị chặn:", err);
+  });
+});
+
 
             const container = document.getElementById('canvas-container');
             scene = new THREE.Scene();
